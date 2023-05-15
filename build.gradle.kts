@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.3.50"
 	kotlin("plugin.spring") version "1.3.50"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50" apply false
+	id("org.sonarqube") version "4.0.0.2929"
 }
 
 allprojects {
@@ -23,9 +24,9 @@ allprojects {
 		kotlinOptions {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
 			jvmTarget = "1.8"
+			allWarningsAsErrors = true
 		}
 	}
-
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
@@ -36,8 +37,6 @@ configurations {
 		extendsFrom(developmentOnly)
 	}
 }
-
-
 
 dependencies {
 	// spring modules
