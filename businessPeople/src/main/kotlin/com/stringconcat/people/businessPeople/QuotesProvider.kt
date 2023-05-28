@@ -1,6 +1,6 @@
 package com.stringconcat.people.businessPeople
 
-interface QuotesProvider {
+fun interface QuotesProvider {
     fun randomQuote(): Quote
 }
 

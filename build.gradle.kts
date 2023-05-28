@@ -7,6 +7,7 @@ plugins {
 	kotlin("plugin.spring") version "1.3.50"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50" apply false
 	id("org.sonarqube") version "4.0.0.2929"
+    id("org.owasp.dependencycheck") version "6.5.3"
 }
 
 allprojects {
@@ -72,4 +73,9 @@ dependencies {
 
 tasks.test {
 	useJUnitPlatform()
+}
+
+dependencyCheck {
+    failBuildOnCVSS = 5f
+    failOnError = true
 }
