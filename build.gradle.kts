@@ -78,4 +78,5 @@ tasks.test {
 dependencyCheck {
     failBuildOnCVSS = 5f
     failOnError = true
+	analyzers.assemblyEnabled = false
 }
