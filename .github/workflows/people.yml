@@ -32,7 +32,7 @@ jobs:
           arguments: sonar
 
       - name: Build
-          run: ./gradlew build
+        run: ./gradlew build
 
 
 
