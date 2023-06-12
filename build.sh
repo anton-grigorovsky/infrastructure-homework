@@ -1,9 +1,16 @@
-sh gradlew sonar
+sh gradlew detekt
 if [ $? -eq 0 ]
 then
-  docker-compose build
+  sh gradlew sonar
+  if [ $? -eq 0 ]
+  then
+    sh gradlew dependencyUpdate
+    docker-compose build
+  else
+    echo "Check sonar analysis report"
+  fi
 else
-  echo "Check sonar analysis report"
+  echo "Code style checking failed"
 fi
 
 sleep 60
