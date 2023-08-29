@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     implementation("javax.inject:javax.inject:1")
@@ -13,4 +13,8 @@ dependencies {
     // tests
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

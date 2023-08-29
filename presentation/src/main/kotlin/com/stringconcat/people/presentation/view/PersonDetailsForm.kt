@@ -2,7 +2,6 @@ package com.stringconcat.people.presentation.view
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import java.lang.StringBuilder
 
 fun personDetailsForm(): String =
     StringBuilder()

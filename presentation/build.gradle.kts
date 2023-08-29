@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     implementation(project(":businessPeople"))
@@ -31,4 +31,13 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test:3.4.18")
+
+    testImplementation(testFixtures(project(":businessPeople")))
+    testFixturesImplementation(testFixtures(project(":businessPeople")))
+    testImplementation(testFixtures(project(":useCasePeople")))
+    testFixturesImplementation(testFixtures(project(":useCasePeople")))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

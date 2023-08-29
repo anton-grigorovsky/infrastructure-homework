@@ -1,6 +1,8 @@
-package com.stringconcat.people.useCasePeople
+package com.stringconcat.people.useCasePeople.scenarios
 
 import com.stringconcat.people.businessPeople.Person
+import com.stringconcat.people.useCasePeople.Me
+import com.stringconcat.people.useCasePeople.access.PersonPersister
 import java.time.LocalDate
 import java.util.*
 import javax.inject.Named
@@ -11,9 +13,9 @@ private const val MY_BIRTH_DAY = 1
 
 @Named
 class MeUseCase(
-    private val persistPerson: PersistPerson
-) {
-    operator fun invoke(): Person {
+    private val personPersister: PersonPersister
+): Me {
+    override fun invoke(): Person {
         val me = Person(
             id = UUID.fromString("29f4d7e3-fd7c-4664-ad07-763326215ec4"),
             firstName = "Sergey",
@@ -23,7 +25,7 @@ class MeUseCase(
             avatartUrl = "https://avatars.dicebear.com/v2/male/my-somffething.svg",
             favoriteQuote = "make the easy things easy, and the hard things possible"
         )
-        persistPerson.persist(me)
+        personPersister.persist(me)
         return me
     }
 }

@@ -1,12 +1,15 @@
 package com.stringconcat.people.presentation.controller
 
+import com.stringconcat.people.presentation.API_ME
+import com.stringconcat.people.presentation.API_PERSON_GENERATE
+import com.stringconcat.people.presentation.API_PERSON_GET_BY_ID
 import com.stringconcat.people.presentation.model.PersonRespectfullViewModel
 import com.stringconcat.people.presentation.view.personDetailsForm
 import com.stringconcat.people.presentation.view.renderDetailedView
-import com.stringconcat.people.useCasePeople.CreateNewPersonUseCase
-import com.stringconcat.people.useCasePeople.GetPersonUseCase
-import com.stringconcat.people.useCasePeople.MeUseCase
-import com.stringconcat.people.useCasePeople.PersonCreationSummary
+import com.stringconcat.people.useCasePeople.CreatePerson
+import com.stringconcat.people.useCasePeople.GetPerson
+import com.stringconcat.people.useCasePeople.Me
+import com.stringconcat.people.useCasePeople.scenarios.PersonCreationSummary
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,18 +23,18 @@ import java.util.*
 
 @Controller
 class PeopleController(
-    val getPerson: GetPersonUseCase,
-    val createNew: CreateNewPersonUseCase,
-    val getMe: MeUseCase
+    val getPerson: GetPerson,
+    val createNew: CreatePerson,
+    val getMe: Me
 ) {
 
-    @RequestMapping(value = ["/me"], method = [RequestMethod.GET])
+    @RequestMapping(value = [API_ME], method = [RequestMethod.GET])
     @ResponseBody
     fun me(): String {
         return renderDetailedView(person = PersonRespectfullViewModel(getMe()))
     }
 
-    @RequestMapping(value = ["/id/{id}"])
+    @RequestMapping(value = [API_PERSON_GET_BY_ID])
     fun get(@PathVariable id: String): ResponseEntity<String> {
         val idUUD = try {
             UUID.fromString(id)
@@ -47,14 +50,14 @@ class PeopleController(
         )
     }
 
-    @RequestMapping(value = ["/generate"], method = [RequestMethod.GET])
+    @RequestMapping(value = [API_PERSON_GENERATE], method = [RequestMethod.GET])
     @ResponseBody
     fun showCreationForm(): String {
         return personDetailsForm()
     }
 
     @RequestMapping(
-        value = ["/generate"],
+        value = [API_PERSON_GENERATE],
         method = [RequestMethod.POST],
         consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
     )
