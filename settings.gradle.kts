@@ -19,3 +19,6 @@ include(":useCasePeople")
 include(":persistence")
 include(":quoteGarden")
 include(":avatarsDicebear")
+include("tests")
+include("tests:e2e")
+findProject(":tests:e2e")?.name = "e2e"
