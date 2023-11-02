@@ -9,6 +9,7 @@ plugins {
     id("org.sonarqube") version "4.0.0.2929"
     id("com.github.ben-manes.versions") version "0.47.0"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
+    id("info.solidsoft.pitest") version "1.7.0" apply false
 }
 
 allprojects {
@@ -44,7 +45,21 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "java-test-fixtures")
+    apply {
+        plugin("java")
+        plugin("info.solidsoft.pitest")
+        plugin("java-test-fixtures")
+    }
+
+    configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
+        junit5PluginVersion.set("0.15")
+        targetClasses.set(listOf("com.stringconcat.*"))
+        threads.set(4)
+        failWhenNoMutations.set(false)
+        timestampedReports.set(false)
+        outputFormats.set(listOf("HTML"))
+        avoidCallsTo.set(setOf("kotlin.jvm.internal"))
+    }
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
