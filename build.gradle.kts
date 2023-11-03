@@ -49,6 +49,7 @@ subprojects {
         plugin("java")
         plugin("info.solidsoft.pitest")
         plugin("java-test-fixtures")
+        plugin("jacoco")
     }
 
     configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
@@ -59,6 +60,35 @@ subprojects {
         timestampedReports.set(false)
         outputFormats.set(listOf("HTML"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal"))
+    }
+
+    tasks {
+        val check = named<DefaultTask>("check")
+        val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
+        val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
+
+        check {
+            finalizedBy(jacocoTestReport)
+        }
+
+        jacocoTestReport {
+            dependsOn(check)
+            finalizedBy(jacocoTestCoverageVerification)
+        }
+
+        jacocoTestCoverageVerification {
+            dependsOn(jacocoTestReport)
+
+            violationRules {
+
+                rule {
+                    excludes = listOf("e2e")
+                    limit {
+                        minimum = BigDecimal("0.8")
+                    }
+                }
+            }
+        }
     }
 }
 
