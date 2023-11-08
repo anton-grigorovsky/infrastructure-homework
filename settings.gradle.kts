@@ -22,3 +22,5 @@ include(":avatarsDicebear")
 include("tests")
 include("tests:e2e")
 findProject(":tests:e2e")?.name = "e2e"
+include("tests:performance")
+findProject(":tests:performance")?.name = "performance"

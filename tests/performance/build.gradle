@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id "io.gatling.gradle" version "3.7.2"
+}
+
+group 'com.stringconcat'
+version '0.0.1'
+
+repositories {
+    jcenter {
+        url "https://jcenter.bintray.com/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    gatlingImplementation 'com.github.javafaker:javafaker:1.0.2'
+    gatlingImplementation 'io.rest-assured:rest-assured:5.3.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
