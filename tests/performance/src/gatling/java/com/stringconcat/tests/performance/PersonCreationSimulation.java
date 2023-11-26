@@ -1,6 +1,8 @@
 package com.stringconcat.tests.performance;
 
 import com.github.javafaker.Faker;
+import com.stringconcat.people.common.StandConfiguration;
+import com.stringconcat.people.common.StandContainer;
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.OpenInjectionStep;
 import io.gatling.javaapi.core.ScenarioBuilder;
@@ -21,13 +23,14 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class PersonCreationSimulation extends Simulation {
 
+    private static final StandConfiguration SETTINGS = new StandConfiguration();
+    private static final StandContainer STAND_CONTAINER = new StandContainer(SETTINGS);
     private static final HttpProtocolBuilder HTTP_PROTOCOL_BUILDER = setupProtocolForSimulation();
-
     private static final Iterator<Map<String, Object>> FEED_DATA = feedData();
-
     private static final ScenarioBuilder POST_SCENARIO_BUILDER = buildPostScenario();
 
     public PersonCreationSimulation() {
+        STAND_CONTAINER.start();
         setUp(POST_SCENARIO_BUILDER.injectOpen(postEndpointInjectionProfile())
                 .protocols(HTTP_PROTOCOL_BUILDER))
                 .assertions(
@@ -35,8 +38,13 @@ public class PersonCreationSimulation extends Simulation {
                         global().successfulRequests().percent().is(100d));
     }
 
+    @Override
+    public void after() {
+        STAND_CONTAINER.stop();
+    }
+
     private static HttpProtocolBuilder setupProtocolForSimulation() {
-        return http.baseUrl("http://localhost:8080")
+        return http.baseUrl(SETTINGS.peopleBaseUrl)
                 .acceptHeader("application/json")
                 .maxConnectionsPerHost(10)
                 .userAgentHeader("Gatling/Performance Test");

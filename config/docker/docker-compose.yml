@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+
+  postgres:
+    image: postgres:13.3
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=people
+    ports:
+      - ${POSTGRES_PORT}:5432
+
+  people:
+    build: .
+    image: people:latest
+    environment:
+      - SERVER_PORT=${PEOPLE_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/people?createDatabaseIfNotExist=true
+    ports:
+      - ${PEOPLE_PORT}:${PEOPLE_PORT}
+    depends_on:
+      - postgres

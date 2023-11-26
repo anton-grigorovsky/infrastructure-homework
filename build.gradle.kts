@@ -14,7 +14,6 @@ plugins {
 
 allprojects {
     group = "com.stringconcat"
-    version = "0.0.1"
 
     repositories {
         mavenCentral()

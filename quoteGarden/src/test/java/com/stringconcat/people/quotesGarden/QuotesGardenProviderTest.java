@@ -11,7 +11,7 @@ import static com.stringconcat.people.quotesGarden.QuoteGardenProviderKt.DEFAULT
 import static com.stringconcat.people.quotesGarden.QuoteGardenProviderKt.PATH;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WireMockTest(httpPort = 80)
+@WireMockTest(httpPort = 8094)
 public class QuotesGardenProviderTest {
 
     @Test
@@ -21,7 +21,7 @@ public class QuotesGardenProviderTest {
                         .withHeader("Content-Type", "application/json")
                         .withBody(RESPONSE_PAYLOAD)));
         var quoteProvider = new QuoteGardenProvider();
-        quoteProvider.changeUrl("http://localhost");
+        quoteProvider.changeUrl("http://localhost:8094");
         var quote = quoteProvider.randomQuote();
         assertEquals(quote, QUOTE);
     }
@@ -31,7 +31,7 @@ public class QuotesGardenProviderTest {
         stubFor(get(PATH)
                 .willReturn(serverError()));
         var quoteProvider = new QuoteGardenProvider();
-        quoteProvider.changeUrl("http://localhost");
+        quoteProvider.changeUrl("http://localhost:8094");
         var quote = quoteProvider.randomQuote();
         assertEquals(quote, DEFAULT_QUOTE);
     }
