@@ -17,6 +17,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
+    testImplementation(project(":tests:common"))
     testImplementation(testFixtures(project(":businessPeople")))
     testFixturesImplementation(testFixtures(project(":businessPeople")))
     testImplementation(testFixtures(project(":presentation")))
@@ -25,4 +26,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    def dockerComposeFileProperty = "dockerComposeFile"
+    def envFileProperty = "envFile"
+
+    def dockerComposeFile = System.getProperty(dockerComposeFileProperty,
+            "${project.rootProject.rootDir}/config/docker/docker-compose.yml")
+    systemProperties[dockerComposeFileProperty] = dockerComposeFile
+
+    def envFile = System.getProperty(envFileProperty,
+            "${project.rootProject.rootDir}/config/docker/env/e2e.env")
+    systemProperties[envFileProperty] = envFile
 }
